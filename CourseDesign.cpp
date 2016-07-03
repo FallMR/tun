@@ -115,19 +115,7 @@ void udp_input(int fd, const void* input, const void* payload, int len)
     inet_ntop(AF_INET, &iphdr->saddr, source, INET_ADDRSTRLEN);
     inet_ntop(AF_INET, &iphdr->daddr, dest, INET_ADDRSTRLEN);
     printf("IP %s:%d > %s:%d: ", source, ntohs(udphdr->source), dest, ntohs(udphdr->dest));
-    printf("UDP request, length %d\n", ntohl(udphdr->len));
-}
-
-void igmp_input(int fd, const void* input, const void* payload, int len)
-{
-    const struct iphdr* iphdr = static_cast<const struct iphdr*>(input);
-    const struct igmphdr* igmphdr = static_cast<const struct igmphdr*>(payload);
-    char source[INET_ADDRSTRLEN];
-    char dest[INET_ADDRSTRLEN];
-    inet_ntop(AF_INET, &iphdr->saddr, source, INET_ADDRSTRLEN);
-    inet_ntop(AF_INET, &iphdr->daddr, dest, INET_ADDRSTRLEN);
-    printf("IP %s > %s ", source, dest);
-    printf("IGMP request, length %d\n", len);
+    printf("UDP request, length %u\n", udphdr->uh_ulen);
 }
 
 int main(int argc, char *argv[])
