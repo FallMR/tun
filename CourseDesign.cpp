@@ -110,12 +110,13 @@ void udp_input(int fd, const void* input, const void* payload, int len)
 {
     const struct iphdr* iphdr = static_cast<const struct iphdr*>(input);
     const struct udphdr* udphdr = static_cast<const struct udphdr*>(payload);
+    const int iphdr_len = iphdr->ihl*4;
     char source[INET_ADDRSTRLEN];
     char dest[INET_ADDRSTRLEN];
     inet_ntop(AF_INET, &iphdr->saddr, source, INET_ADDRSTRLEN);
     inet_ntop(AF_INET, &iphdr->daddr, dest, INET_ADDRSTRLEN);
     printf("IP %s:%d > %s:%d: ", source, ntohs(udphdr->source), dest, ntohs(udphdr->dest));
-    printf("UDP request, length %u\n", udphdr->uh_ulen);
+    printf("UDP request, length %u\n", len - iphdr_len - sizeof(struct udphdr));
 }
 
 int main(int argc, char *argv[])
