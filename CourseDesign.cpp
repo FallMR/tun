@@ -116,7 +116,7 @@ void udp_input(int fd, const void* input, const void* payload, int len)
     inet_ntop(AF_INET, &iphdr->saddr, source, INET_ADDRSTRLEN);
     inet_ntop(AF_INET, &iphdr->daddr, dest, INET_ADDRSTRLEN);
     printf("IP %s:%d > %s:%d: ", source, ntohs(udphdr->source), dest, ntohs(udphdr->dest));
-    printf("UDP request, length %u\n", len - iphdr_len - sizeof(struct udphdr));
+    printf("UDP request, length %lu\n", len - iphdr_len - sizeof(struct udphdr));
 }
 
 int main(int argc, char *argv[])
